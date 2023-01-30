@@ -1,0 +1,204 @@
+.chatContainer {  
+  display:flex;
+  position: absolute;
+  top: 64px;
+  bottom: 0px;
+  width: 100%;
+  background-color: #F9FAFB;
+}
+ 
+  .ChannelMenu {
+    background: #ffffff;
+    border: thin solid rgb(243, 242, 242);
+  }
+  .channelsDisplay {
+    height: calc(100vh - 210px - 2rem);
+    background-color: white;
+    overflow-y: scroll;
+  }
+  .ChannelHeader {  
+    display: grid;
+    height: 48px;
+    grid-template-columns: 6fr 1fr;
+    grid-template-rows: 8fr;
+    grid-auto-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    margin-top: 5px;
+  }
+  .ChannelItem {
+    border-color: #e0e0e0;
+    border-width: thin;
+    background-color: white; 
+    cursor: pointer;
+    border-radius: 10px / 10px 10px 10px 10px;
+    margin: 8px;
+  }
+
+  .infoDialog {
+    bottom: 0;
+    border: thin solid rgb(243, 242, 242);
+    border-bottom: none;
+  }
+
+  .ChatDisplay {
+    display:grid;
+    grid-template-rows: auto auto 70px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .ChatHeader { 
+    display: grid;
+    grid-template-columns: auto 80px;
+    background: white;
+    font-weight: bold;
+    padding: 8px;
+    padding-top: 15px;
+    height: 55px;
+    color: "black";
+    grid-template-rows: "1fr";
+    grid-auto-rows: "1fr";
+    gap: "0px 0px";
+    grid-auto-flow: "row";
+    border: thin solid rgb(243, 242, 242);
+  }
+  .leftChatHeader {
+    text-align: left; 
+    margin-left: 5px; 
+    display: flex;
+  }
+  
+  .MessageDisplay { 
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 25px;
+    margin-bottom: 5px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  
+  .SendMessage { 
+    margin-left: 1vw;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 97.5%;
+  }
+  
+
+  .rightChat {  
+    display: grid;
+    grid-template-columns: 2fr 0.05fr;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  
+  .rightChatContent { 
+    grid-area: 1 / 1 / 2 / 2; 
+    margin-left: 30%;
+    margin-right: 20px;
+    text-align: left;
+  }
+
+  
+  .rightChatAvatar { 
+    grid-area: 1 / 2 / 2 / 3;
+    margin-top: 20px;
+  }
+
+  .leftChat {  
+    display: grid;
+    margin-left: 15px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  
+  .leftChatAvatar { 
+    grid-area: 1 / 1 / 2 / 2;
+    margin-top: 20px;
+  }
+  
+  .leftChatContent { 
+    grid-area: 1 / 1 / 2 / 3; 
+    margin-left: 50px;
+    margin-right: 30%;
+    text-align: left;
+  }
+   
+  .searchBar {
+    width: 98%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+  }
+  
+  #searchQueryInput {
+    width: 95%;
+    height: 2rem;
+    background: white;
+    outline: none;
+    border: thin solid rgb(219, 217, 217);
+    border-radius: 1.625rem;
+    padding: 0 3.5rem 0 1.5rem;
+    font-size: 1rem;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  
+  #searchQuerySubmit {
+    width: 3.5rem;
+    height: 2.rem;
+    margin-left: -3.5rem;
+    background: none;
+    border: none;
+    outline: none;
+  }
+  
+  #searchQuerySubmit:hover {
+    cursor: pointer;
+  }
+
+
+@media screen and (max-width: 600px) {
+  .chatContainer {  
+    display:table;
+    position: absolute;
+    top: 56px;
+    bottom: 0px;
+    width: 100vw;
+    overflow: hidden;
+  }
+  .ChannelMenu { 
+    width: 100vw;
+  }
+
+  .infoDialog {
+    height: 80px;
+  }
+  #searchQueryInput {
+    width: 85vw;
+    height: 2rem;
+    background: white;
+    outline: none;
+    border: thin solid rgb(219, 217, 217);
+    border-radius: 1.625rem;
+    padding: 0 3.5rem 0 1.5rem;
+    font-size: 1rem;
+    margin-left: 15px;
+  }
+  
+  .ChatDisplay {
+    display:grid;
+    grid-template-rows: auto auto 70px;
+    width: 100vw;
+    height: calc(100vh - 56px);
+    position: relative;
+    overflow: hidden;
+  }
+}
+  

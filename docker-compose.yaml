@@ -1,0 +1,83 @@
+version: "3.9"
+
+x-service-base: &service-base
+  init: true
+  restart: unless-stopped
+  environment:
+    TZ: "Europe/Paris"
+
+x-volume-base: &volume-base
+  driver: local
+
+services:
+  postgres:
+    <<: *service-base
+    image: postgres:latest
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    env_file:
+      - ./docker/postgres.env
+    ports:
+      - 5432:5432
+    networks:
+      - backend-network
+
+  pgadmin:
+    <<: *service-base
+    image: dpage/pgadmin4:latest
+    volumes:
+      - ./docker/pgadmin_servers.json:/pgadmin4/servers.json
+    env_file:
+      - ./docker/pgadmin.env
+    ports:
+      - 5050:80
+    networks:
+      - backend-network
+    depends_on:
+      - postgres
+
+  backend:
+    <<: *service-base
+    build:
+      context: backend/
+    image: backend
+    env_file:
+      - ./docker/backend.env
+    ports:
+      - 3000:3000
+      - 5555:5555
+    networks:
+      - backend-network
+      - frontend-network
+    working_dir: /app
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend/src/:/app/src/
+      - ./backend/prisma/:/app/prisma/
+      - db-volume:/app/upload/avatar
+
+  frontend:
+    <<: *service-base
+    build:
+      context: client/
+    image: frontend
+    env_file:
+      - ./docker/frontend.env
+    ports:
+      - 3001:3001
+    networks:
+      - frontend-network
+    working_dir: /app
+    depends_on:
+      - backend
+    volumes:
+      - ./client/src/:/app/src/
+
+volumes:
+  db-volume:
+    <<: *volume-base
+
+networks:
+  frontend-network:
+  backend-network:

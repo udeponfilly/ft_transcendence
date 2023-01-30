@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  avatar       String
+  login        String       @unique
+  username     String       @unique
+  email        String       @unique
+  TFASecret    String?
+  otpauthUrl   String?
+  isTFAEnabled Boolean		@default(false)
+  blacklisted  Blacklist[]  @relation("blacklisted")
+  messages     Message[]
+  channels     Channel[]    @relation("channel::members")
+  admin_of     Channel[]    @relation("channel::admins")
+  owner_of     Channel[]
+  p1_games     Game[]       @relation("player1")
+  p2_games     Game[]       @relation("player2")
+  friends     User[]       @relation("Friendship")
+  friendsRel  User[]       @relation("Friendship")
+  blacklist    Blacklist[]
+}
+
+model Channel {
+  id        Int         @id @default(autoincrement())
+  members   User[]      @relation("channel::members")
+  type      String
+  title     String?
+  password  String?
+  admin     User[]      @relation("channel::admins")
+  Message   Message[]
+  blacklist Blacklist[]
+  owner     User?        @relation(fields: [ownerId], references: [id])
+  ownerId   Int?
+}
+
+model Game {
+  id            Int      @id @default(autoincrement())
+  player1       User     @relation("player1", fields: [player1Id], references: [id])
+  player1Id     Int
+  player2       User     @relation("player2", fields: [player2Id], references: [id])
+  player2Id     Int
+  player1_score Int?
+  player2_score Int?
+  winner        Int?
+  date          DateTime @default(now())
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  channel   Channel  @relation(fields: [channelId], references: [id])
+  channelId Int
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  date      DateTime @default(now())
+  content   String
+}
+
+model Blacklist {
+  id        Int      @id @default(autoincrement())
+  target    User     @relation("blacklisted", fields: [target_id], references: [id])
+  target_id Int
+  type      String
+  date      DateTime @default(now())
+  delay     Int?
+  channel   Channel? @relation(fields: [channelId], references: [id])
+  channelId Int?
+  creator   User     @relation(fields: [creatorId], references: [id])
+  creatorId Int
+}
